@@ -38,11 +38,17 @@ terraform apply  # with our without -var-file pointing at the .tfvars
 
 Take note of the `vpc_id`, `private_subnets` and`intra_subnets` outputs
 
-c) Set the necessary variables for the EKS deployment - review the README file in the module for an overview of mandatory and optional variables, or fill in the sample dev.tfvars file I provided. The mandatory variables are:
+c) (Optional) If you're deploying this to a new AWS account, there is a chance that you will need to first enable the service-linked role for Spot instances, since that is what Karpenter uses in this PoC. This can be achieved with the following command:
+
+```
+aws iam create-service-linked-role --aws-service-name spot.amazonaws.com || true
+```
+
+d) Set the necessary variables for the EKS deployment - review the README file in the module for an overview of mandatory and optional variables, or fill in the sample dev.tfvars file I provided. The mandatory variables are:
 
 `project`, `environment`, `region`, `vpc_id`, `subnets_ids`, `control_plane_subnet_ids`
 
-d) Deploy the EKS resources
+e) Deploy the EKS resources
 
 ```
 cd terraform/eks
